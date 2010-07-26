@@ -1,6 +1,6 @@
 ## Datasource Couchdb para CakePHP
 
-O datasource é compatível com PHP 5.3.x
+O datasource é compatível com PHP 5.3.x \n
 O datasource é compatível com o CakePHP 1.3.x
 
 ### Aplicação do datasource 

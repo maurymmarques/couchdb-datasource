@@ -1,24 +1,24 @@
 ## Datasource Couchdb para CakePHP
 
-O datasource é compatível com PHP 5.3.x <br />
-O datasource é compatível com o CakePHP 1.3.x
+O datasource é compatível com PHP 5.3.x<br />
+O datasource é compatível com o CakePHP 1.3.x<br />
 
 ### Aplicação do datasource 
 
-Junto do datasource, existe um exemplo da aplicação utilizando métodos CRUD(create, read, update, delete).
+Junto do datasource, existe um exemplo da aplicação utilizando métodos CRUD(create, read, update, delete).<br />
 
 ### Arquivos
 
-DATASOURCE app/models/datasources/couchdb_source.php 
-EXEMPLO POSTS CONTROLLER app/models/post.php
-EXEMPLO POST MODEL app/controllers/posts_controllers.php
-EXEMPLO POST VIEWS app/views/posts
+DATASOURCE app/models/datasources/couchdb_source.php<br />
+EXEMPLO POSTS CONTROLLER app/models/post.php<br />
+EXEMPLO POST MODEL app/controllers/posts_controllers.php<br />
+EXEMPLO POST VIEWS app/views/posts<br />
 
 ### Considerações
 
-Apesar de os métodos de CRUD estarem prontos o datasource não é completo com todas as opções de CRUD que o CakePHP oferece para um banco de dados como por exemplo o MySQL.
-Alguns recursos como recursividade, saveAll, saveField, updateAll, e relacionamentos entre model que utilizam conexão como o couchdb e um moddel de banco de dados SQL, e entre outros não foram criados.
-Outros testes também podem ser efetuados para apontar erros ou outras funcionalidades que podem ser criadas.
-Melhorias e testes são aceitos.
+Apesar de os métodos de CRUD estarem prontos o datasource não é completo com todas as opções de CRUD que o CakePHP oferece para um banco de dados como por exemplo o MySQL.<br />
+Alguns recursos como recursividade, saveAll, saveField, updateAll, e relacionamentos entre model que utilizam conexão como o couchdb e um moddel de banco de dados SQL, e entre outros não foram criados.<br />
+Outros testes também podem ser efetuados para apontar erros ou outras funcionalidades que podem ser criadas.<br />
+Melhorias e testes são aceitos.<br /><br />
 
 Obrigado.

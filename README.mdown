@@ -11,10 +11,10 @@ Along the datasource, is an example of applying methods using CRUD (create, read
 
 ### Archives
 
-Datasource (app / models / datasources / couchdb_source.php)
-Posts controller (app / models / post.php)
-Model post (app / controllers / posts_controllers.php)
-Views posts (app / views / posts)
+Datasource (app/models/datasources/couchdb_source.php)
+Posts controller (app/models/post.php)
+Model post (app/controllers/posts_controllers.php)
+Views posts (app/views/posts)
 
 ### Considerations
 

@@ -50,7 +50,7 @@
  *
  */
 	if (!defined('CAKE_CORE_INCLUDE_PATH')) {
-		define('CAKE_CORE_INCLUDE_PATH', 'C:' . DS . 'xampp' . DS . 'htdocs' . DS . 'cake_1.3.3');
+		define('CAKE_CORE_INCLUDE_PATH', ROOT);
 	}
 
 /**

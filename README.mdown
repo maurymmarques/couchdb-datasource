@@ -19,7 +19,7 @@ Views posts (app/views/posts)<br />
 ### Considerations
 
 Although the CRUD methods are ready, the datasource is not complete with all the options of crud that CakePHP provides for a database such as MySQL<br />
-Some features such as debugging queries, recursion, SaveAll, saveField, updateAll, and relationships between model using as the connection couchdb MO MODE DL and a SQL database, and others were not created.<br />
+Some features such as debugging queries, recursion, SaveAll, saveField, updateAll, and relationships between model using as the connection as a model and the SQL database, and others were not created.<br />
 Other tests may also be made to point out mistakes or other features that can be created.<br />
 Improvements and tests are accepted.<br /><br />
 
@@ -46,7 +46,7 @@ Views posts (app/views/posts)<br />
 ### Considerações
 
 Apesar de os métodos de CRUD estarem prontos, o datasource não é completo com todas as opções de CRUD que o CakePHP oferece para um banco de dados, como por exemplo o MySQL.<br />
-Alguns recursos como debug de queries, recursividade, saveAll, saveField, updateAll, e relacionamentos entre model que utilizam conexão como o couchdb e um moddel de banco de dados SQL, e entre outros não foram criados.<br />
+Alguns recursos como debug de queries, recursividade, saveAll, saveField, updateAll, e relacionamentos entre model que utilizam conexão como o couchdb e um model de banco de dados SQL, e entre outros não foram criados.<br />
 Outros testes também podem ser efetuados para apontar erros ou outras funcionalidades que podem ser criadas.<br />
 Melhorias e testes são aceitos.<br /><br />
 

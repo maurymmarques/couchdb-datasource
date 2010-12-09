@@ -2,26 +2,26 @@
 
 ## Datasource CouchDB to CakePHP
 
-The datasource is compatible with PHP 5.3.x
-The datasource is compatible with CakePHP 1.3.x
+The datasource is compatible with PHP 5.3.x<br />
+The datasource is compatible with CakePHP 1.3.x<br />
 
 ### Application of the datasource
 
-Along the datasource, is an example of applying methods using CRUD (create, read, update, delete).
+Along the datasource, is an example of applying methods using CRUD (create, read, update, delete).<br />
 
 ### Archives
 
-Datasource (app/models/datasources/couchdb_source.php)
-Posts controller (app/models/post.php)
-Model post (app/controllers/posts_controllers.php)
-Views posts (app/views/posts)
+Datasource (app/models/datasources/couchdb_source.php)<br />
+Posts controller (app/models/post.php)<br />
+Model post (app/controllers/posts_controllers.php)<br />
+Views posts (app/views/posts)<br />
 
 ### Considerations
 
-Although the CRUD methods are ready, the datasource is not complete with all the options of crud that CakePHP provides for a database such as MySQL
-Some features such as debugging queries, recursion, SaveAll, saveField, updateAll, and relationships between model using as the connection couchdb MO MODE DL and a SQL database, and others were not created.
-Other tests may also be made to point out mistakes or other features that can be created.
-Improvements and tests are accepted.
+Although the CRUD methods are ready, the datasource is not complete with all the options of crud that CakePHP provides for a database such as MySQL<br />
+Some features such as debugging queries, recursion, SaveAll, saveField, updateAll, and relationships between model using as the connection couchdb MO MODE DL and a SQL database, and others were not created.<br />
+Other tests may also be made to point out mistakes or other features that can be created.<br />
+Improvements and tests are accepted.<br /><br />
 
 Thanks.
 

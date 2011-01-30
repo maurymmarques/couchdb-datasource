@@ -217,6 +217,19 @@ class CouchdbSource extends DataSource{
 		$result = array();
 		$result[0][$model->alias] = $this->decode($this->Socket->get($this->uri($model, $params)), true);
 
+		return $this->readResult($model, $queryData, $result);
+	}
+
+	/**
+	 * Aplica as regras ao documento lido.
+	 *
+	 * @param Model $model
+	 * @param array $queryData um array de informações $queryData contendo as chaves, similar ao Model::find()
+	 * @param array $result Dados do documento lido
+	 * @return mixed boolean false em erro/falha. Um array de resultados em secesso.
+	 * @access public
+	 */
+	private function readResult($model, $queryData, $result){
 		if(isset($result[0][$model->alias]['_id'])){
 			if(isset($queryData['fields']) && $queryData['fields'] === true){
 				$result[0][0]['count'] = 1;

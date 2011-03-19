@@ -9,7 +9,7 @@ The datasource is compatible with CakePHP 1.3.x<br />
 
 Along the datasource, is an example of applying methods using CRUD (create, read, update, delete).<br />
 
-### Archives
+### Archives (datasource + usage examples)
 
 Datasource (app/models/datasources/couchdb_source.php)<br />
 Posts controller (app/models/post.php)<br />
@@ -36,7 +36,7 @@ O datasource é compatível com o CakePHP 1.3.x<br />
 
 Junto do datasource, tem um exemplo da aplicação utilizando métodos CRUD(create, read, update, delete).<br />
 
-### Arquivos
+### Arquivos (datasource + exemplos de utilização)
 
 Datasource (app/models/datasources/couchdb_source.php)<br />
 Controller posts (app/models/post.php)<br />

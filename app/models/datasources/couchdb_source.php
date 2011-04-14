@@ -2,19 +2,19 @@
 /**
  * Couchdb DataSource
  *
- * Usado para ler, escrever, atualiza e deletar documentos no Couchdb, atravé dos models.
+ * Used to read, write, update and delete documents in CouchDB, through models.
  *
  * PHP Version 5.x
  * CAKEPHP Version 1.3.x
  *
  * Reference:
  * gwoo couchsource datasource (http://bin.cakephp.org/view/925615535#modify)
- * Trabalhando com o couchdb (http://www.botecounix.com.br/blog/?p=1375)
+ * Working with couchdb (http://www.botecounix.com.br/blog/?p=1375)
  *
  * Copyright 2010, Maury M. Marques http://github.com/maurymmarques/
  *
- * Disponibilizado sob licença MIT.
- * Redistribuições dos arquivos devem manter a nota de copyright acima.
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
  *
  * @package couchdb
  * @subpackage couchdb.models.datasources
@@ -24,15 +24,14 @@
  * @author Maury M. Marques - maurymmarques@google.com
  */
 App::import('Core', 'HttpSocket');
-class CouchdbSource extends DataSource{
+class CouchdbSource extends DataSourc/**
 
 	/**
-	 * Construtor.
+	 * Constructor
 	 *
-	 * @param array $config Configuração de conexão com o couchdb.
-	 * @param integer $autoConnect Auto conexão.
+	 * @param array $config Connection setup for CouchDB.
+	 * @param integer $autoConnect Autoconnect
 	 * @return boolean
-	 * @access public
 	 */
 	public function __construct($config = null, $autoConnect = true){
 		if(!isset($config['request'])){
@@ -50,11 +49,10 @@ class CouchdbSource extends DataSource{
 	}
 
 	/**
-	 * Reconecta ao servidor de dados com as novas configurações opcionais.
+	 * Reconnects to the database with optional new settings
 	 *
-	 * @param array $config Define as novas configurações
-	 * @return boolean true em sucesso, false em falha
-	 * @access public
+	 * @param array $config New settings
+	 * @return boolean Success
 	 */
 	public function reconnect($config = null){
 		$this->disconnect();
@@ -65,10 +63,9 @@ class CouchdbSource extends DataSource{
 	}
 
 	/**
-	 * Conecta ao banco de dados usando as opções do array determinado na configuração.
+	 * Connects to the database. Options are specified in the $config instance variable
 	 *
-	 * @return boolean true se o banco estiver conectado, senão false
-	 * @access public
+	 * @return boolean Connected
 	 */
 	public function connect(){
 		if($this->connected !== true){
@@ -81,12 +78,13 @@ class CouchdbSource extends DataSource{
 	}
 
 	/**
-	 * Disconecta da base de dados, mata a conexão e informa que a conexão está fechada,
-	 * e se o DEBUG estiver ligado(igual a 2) exibe o log dos dados armazenados.
+	 * Disconnects from the database, kills the connection and advises that the
+	 * connection is closed, and if DEBUG is turned on (equal to 2) displays the
+	 * log of stored data.
 	 *
-	 * @return boolean true se a base de dados estiver desconectada, senão false
-	 * @access public
+	 * @return boolean Disconnected
 	 */
+
 	public function close(){
 		if(Configure::read() > 1){
 			//$this->showLog();
@@ -95,10 +93,9 @@ class CouchdbSource extends DataSource{
 	}
 
 	/**
-	 * Disconecta da base de dados.
+	 * Disconnect from the database
 	 *
-	 * @return boolean true se a base de dados estiver desconectada, senão false
-	 * @access public
+	 * @return boolean Disconnected
 	 */
 	public function disconnect(){
 		if(isset($this->results) && is_resource($this->results)){
@@ -109,10 +106,9 @@ class CouchdbSource extends DataSource{
 	}
 
 	/**
-	 * Lista de databases.
+	 * List of databases
 	 *
-	 * @return array
-	 * @access public
+	 * @return array Databases
 	 */
 	public function listSources(){
 		$databases = $this->decode($this->Socket->get($this->uri('_all_dbs')), true);
@@ -120,11 +116,10 @@ class CouchdbSource extends DataSource{
 	}
 
 	/**
-	 * Conveniência método para DboSource::listSources().
-	 * Retorna os nomes das bases de dados em letras minúsculas.
+	 * Convenience method for DboSource::listSources().
+	 * Returns the names of databases in lowercase.
 	 *
-	 * @return array
-	 * @access public
+	 * @return array Lowercase databases
 	 */
 	public function sources($reset = false){
 		if($reset === true){
@@ -134,26 +129,24 @@ class CouchdbSource extends DataSource{
 	}
 
 	/**
-	 * Retorna uma descrição do model(metadados).
+	 * Returns a description of the model (metadata)
 	 *
 	 * @param Model $model
 	 * @return array
-	 * @access public
 	 */
 	public function describe($model){
 		return $model->schema;
 	}
 
 	/**
-	 * Cria um novo documento na base de dados.
-	 * Se a primaryKey estiver declarada, cria o documento com o id específicado.
-	 * Para criar uma nova database: $this->decode($this->Socket->put($this->uri('nomeDatabase')));
+	 * Creates a new document in the database.
+	 * If the primaryKey is declared, creates the document with the specified ID.
+	 * To create a new database: $this->decode($this->Socket->put($this->uri('databaseName')));
 	 *
 	 * @param Model $model
-	 * @param array $fields Um array com os nomes dos campos para inserir. Se null, $model->data será utilizado para gerar os nomes dos campos.
-	 * @param array $values Um array com valores chaves dos campos. Se null, $model->data será utilizado para gerar os nomes dos campos.
-	 * @return boolean
-	 * @access public
+	 * @param array $fields An array of field names to insert. If null, $model->data will be used to generate the field names.
+	 * @param array $values An array with key values of the fields. If null, $model->data will be used to generate the field names.
+	 * @return boolean Success
 	 */
 	public function create($model, $fields = null, $values = null){
 		$data = $model->data;
@@ -178,13 +171,12 @@ class CouchdbSource extends DataSource{
 	}
 
 	/**
-	 * Lê os dados de um documento.
+	 * Reads data from a document.
 	 *
 	 * @param Model $model
-	 * @param array $queryData um array de informações $queryData contendo as chaves, similar ao Model::find()
-	 * @param integer $recursive Número do nível de associações
-	 * @return mixed boolean false em erro/falha. Um array de resultados em secesso.
-	 * @access public
+	 * @param array $queryData An array of information containing $queryData keys, similar to Model::find()
+	 * @param integer $recursive Level number of associations.
+	 * @return mixed False if an error occurred, otherwise an array of results.
 	 */
 	public function read($model, $queryData = array(), $recursive = null){
 		if($recursive === null && isset($queryData['recursive'])){
@@ -221,13 +213,12 @@ class CouchdbSource extends DataSource{
 	}
 
 	/**
-	 * Aplica as regras ao documento lido.
+	 * Applies the rules to the document read.
 	 *
 	 * @param Model $model
-	 * @param array $queryData um array de informações $queryData contendo as chaves, similar ao Model::find()
-	 * @param array $result Dados do documento lido
-	 * @return mixed boolean false em erro/falha. Um array de resultados em secesso.
-	 * @access public
+	 * @param array $queryData An array of information containing $queryData keys, similar to Model::find()
+	 * @param array $result Data read from the document.
+	 * @return mixed False if an error occurred, otherwise an array of results.
 	 */
 	private function readResult($model, $queryData, $result){
 		if(isset($result[0][$model->alias]['_id'])){
@@ -265,14 +256,13 @@ class CouchdbSource extends DataSource{
 	}
 
 	/**
-	 * Gera e executa uma instrução UPDATE para um determinado model, campos e valores.
+	 * Generates and executes an UPDATE statement for a given model, fields and values.
 	 *
 	 * @param Model $model
 	 * @param array $fields
 	 * @param array $values
 	 * @param mixed $conditions
-	 * @return boolean true em sucesso, false em falha
-	 * @access public
+	 * @return boolean Success
 	 */
 	public function update($model, $fields = null, $values = null, $conditions = null){
 		$id = $model->id;
@@ -295,12 +285,11 @@ class CouchdbSource extends DataSource{
 	}
 
 	/**
-	 * Gera e executa uma instrução DELETE.
+	 * Generates and executes a DELETE statement
 	 *
 	 * @param Model $model
 	 * @param mixed $conditions
-	 * @return boolean true em sucesso, false em falha
-	 * @access public
+	 * @return boolean Success
 	 */
 	public function delete($model, $conditions = null){
 		$id = $model->id;
@@ -315,25 +304,23 @@ class CouchdbSource extends DataSource{
 	}
 
 	/**
-	 * Retorna uma instrução para contagem de dados. (em SQL, i.e. COUNT() ou MAX())
+	 * Returns an instruction to count data. (SQL, i.e. COUNT() or MAX())
 	 *
 	 * @param model $model
 	 * @param string $func Lowercase name of SQL function, i.e. 'count' or 'max'
 	 * @param array $params Function parameters (any values must be quoted manually)
 	 * @return string An SQL calculation function
-	 * @access public
 	 */
 	public function calculate($model, $func, $params = array()){
 		return true;
 	}
 
 	/**
-	 * Obtém nome da tabela completa, incluindo o prefixo
+	 * Gets full table name including prefix
 	 *
 	 * @param mixed $model
 	 * @param boolean $quote
-	 * @return string Nome da tabela completo
-	 * @access public
+	 * @return string Full name of table
 	 */
 	public function fullTableName($model = null, $quote = true){
 		$table = null;
@@ -348,12 +335,11 @@ class CouchdbSource extends DataSource{
 	}
 
 	/**
-	 * Pega a uri
+	 * Get a URI
 	 *
 	 * @param mixed $model
 	 * @param string $params
-	 * @return string uri
-	 * @access private
+	 * @return string URI
 	 */
 	private function uri($model = null, $params = null){
 		if(!is_null($params)){
@@ -367,7 +353,6 @@ class CouchdbSource extends DataSource{
 	 *
 	 * @param string json $data
 	 * @return string JSON
-	 * @access private
 	 */
 	private function encode($data){
 		return json_encode($data);
@@ -375,22 +360,19 @@ class CouchdbSource extends DataSource{
 
 	/**
 	 * JSON decode
-	 *
 	 * @param string json $data
-	 * @param boolean $assoc Se false retorna object, se true retorna array
-	 * @return mixed object ou array
-	 * @access private
+	 * @param boolean $assoc If true, returns array. If false, returns object.
+	 * @return mixed Object or Array.
 	 */
 	private function decode($data, $assoc = false){
 		return json_decode($data, $assoc);
 	}
 
 	/**
-	 * Verifica se o resultado retornou ok = true
+	 * Checks if the result returned ok = true
 	 *
 	 * @param object $object
 	 * @return boolean
-	 * @access private
 	 */
 	private function checkOk($object = null){
 		if(isset($object->ok) && $object->ok === true){

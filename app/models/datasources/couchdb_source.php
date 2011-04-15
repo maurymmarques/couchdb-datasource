@@ -24,7 +24,7 @@
  * @author Maury M. Marques - maurymmarques@google.com
  */
 App::import('Core', 'HttpSocket');
-class CouchdbSource extends DataSourc/**
+class CouchdbSource extends DataSource{
 
 	/**
 	 * Constructor
@@ -58,7 +58,6 @@ class CouchdbSource extends DataSourc/**
 		$this->disconnect();
 		$this->setConfig($config);
 		$this->_sources = null;
-
 		return $this->connect();
 	}
 
@@ -165,9 +164,8 @@ class CouchdbSource extends DataSourc/**
 			$model->id = $result->id;
 			$model->rev = $result->rev;
 			return true;
-		}else{
-			return false;
 		}
+		return false;
 	}
 
 	/**
@@ -208,7 +206,6 @@ class CouchdbSource extends DataSourc/**
 
 		$result = array();
 		$result[0][$model->alias] = $this->decode($this->Socket->get($this->uri($model, $params)), true);
-
 		return $this->readResult($model, $queryData, $result);
 	}
 
@@ -250,9 +247,8 @@ class CouchdbSource extends DataSourc/**
 				}
 			}
 			return $docs;
-		}else{
-			return false;
 		}
+		return false;
 	}
 
 	/**
@@ -279,9 +275,8 @@ class CouchdbSource extends DataSourc/**
 			}else{
 				return false;
 			}
-		}else{
-			return false;
 		}
+		return false;
 	}
 
 	/**
@@ -375,11 +370,7 @@ class CouchdbSource extends DataSourc/**
 	 * @return boolean
 	 */
 	private function checkOk($object = null){
-		if(isset($object->ok) && $object->ok === true){
-			return true;
-		}else{
-			return false;
-		}
+		return isset($object->ok) && $object->ok === true;
 	}
 }
 ?>

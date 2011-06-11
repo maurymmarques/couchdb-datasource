@@ -24,6 +24,13 @@
  * @author Maury M. Marques - maurymmarques@google.com
  */
 App::import('Core', 'HttpSocket');
+
+/**
+ * CouchDB Datasource
+ *
+ * @package datasources
+ * @subpackage datasources.models.datasources
+ */
 class CouchdbSource extends DataSource {
 
 /**

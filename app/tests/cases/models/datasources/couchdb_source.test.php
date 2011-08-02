@@ -89,13 +89,13 @@ class CouchdbTestCase extends CakeTestCase {
  * @var array
  */
 	protected $config = array(
-		'datasource' 	=> 'couchdb',
-		'persistent' 	=> false,
-		'host'		 	=> 'localhost',
-		'port' 	  	 	=> '5984',
-		'user' 	 		=> '',
-		'pass'   		=> '',
-		'database'   	=> null
+		'datasource' => 'couchdb',
+		'persistent' => false,
+		'host' => 'localhost',
+		'port' => '5984',
+		'user' => '',
+		'pass' => '',
+		'database' => null
 	);
 
 /**

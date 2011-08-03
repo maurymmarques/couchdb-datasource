@@ -6,8 +6,8 @@ class DATABASE_CONFIG {
 		'persistent' => false,
 		'host' => 'localhost',
 		'port' => '5984',
-		'user' => '',
-		'pass' => '',
+		'login' => '',
+		'password' => '',
 		'database' => null
 	);
 	

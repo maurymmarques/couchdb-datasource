@@ -40,7 +40,7 @@ Connection in app/Config/database.php:
 class DATABASE_CONFIG {
 
 	public $default = array(
-		'datasource'	=> 'CouchDB.CouchdbSource',
+		'datasource'	=> 'CouchDB.CouchDBSource',
 		'persistent'	=> false,
 		'host'			=> 'localhost',
 		'port'			=> '5984',

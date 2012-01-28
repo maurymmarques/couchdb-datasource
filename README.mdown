@@ -35,9 +35,7 @@ CakePlugin::load('CouchDB');
 
 Connection in app/Config/database.php:
 
-```
-<?php
-
+```php
 public $default = array(
 	'datasource'	=> 'CouchDB.CouchdbSource',
 	'persistent'	=> false,
@@ -48,6 +46,4 @@ public $default = array(
 	'database'		=> null,
 	'prefix'			=> ''
 );
-
-?>
 ```

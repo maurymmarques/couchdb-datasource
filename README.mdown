@@ -47,7 +47,7 @@ class DATABASE_CONFIG {
 		'login'			=> 'root',
 		'password'		=> 'root',
 		'database'		=> null,
-		'prefix'		=> ''
+		'prefix'			=> ''
 	);
 
 }

@@ -37,15 +37,19 @@ Connection in app/Config/database.php:
 
 ```php
 <?php
-public $default = array(
-	'datasource'	=> 'CouchDB.CouchdbSource',
-	'persistent'	=> false,
-	'host'			=> 'localhost',
-	'port'			=> '5984',
-	'login'			=> 'root',
-	'password'		=> 'root',
-	'database'		=> null,
-	'prefix'		=> ''
-);
+class DATABASE_CONFIG {
+
+	public $default = array(
+		'datasource'		=> 'CouchDB.CouchdbSource',
+		'persistent'		=> false,
+		'host'			=> 'localhost',
+		'port'			=> '5984',
+		'login'			=> 'root',
+		'password'		=> 'root',
+		'database'		=> null,
+		'prefix'		=> ''
+	);
+
+}
 ?>
 ```

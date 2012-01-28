@@ -1,6 +1,7 @@
 # Couchdb datasource for CakePHP
 
 
+
 ## Requirements
 CakePHP 2.0+
 
@@ -18,8 +19,6 @@ cd path/to/app/Plugin or /plugins
 git clone git@github.com:maurymmarques/couchdb-datasource.git CouchDB
 ```
 
-### Configuration
-
 Bootstrap the plugin in app/Config/bootstrap.php:
 
 ```php
@@ -32,10 +31,14 @@ CakePlugin::load('CouchDB');
 ?>
 ```
 
+### Configuration
+
 Connection in app/Config/database.php:
 
 ```
-public $couchdb = array(
+<?php
+
+public $default = array(
 	'datasource'	=> 'CouchDB.CouchdbSource',
 	'persistent'	=> false,
 	'host'			=> 'localhost',
@@ -45,4 +48,6 @@ public $couchdb = array(
 	'database'		=> null,
 	'prefix'			=> ''
 );
+
+?>
 ```

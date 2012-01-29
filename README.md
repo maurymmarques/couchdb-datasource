@@ -22,7 +22,7 @@ Bootstrap the plugin in app/Config/bootstrap.php:
 
 ```php
 <?php
-CakePlugin::load('Postmark');
+CakePlugin::load('CouchDB');
 ```
 
 ### Configuration

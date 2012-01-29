@@ -46,3 +46,71 @@ class DATABASE_CONFIG {
 
 }
 ```
+
+## Usage
+
+The datasource works basically like CakePHP
+
+### Saving a document
+
+```php
+<?php
+$data = array('title' => 'My new title');
+$this->Post->save($data);
+
+// Id
+$this->Post->id;
+
+// Revision
+$this->Post->rev;
+```
+
+### Search for a document
+
+```php
+<?php
+$conditions = array('Post.id' => $this->Post->id);
+$result = $this->Post->find('first', compact('conditions'));
+```
+
+### Change a document (changing the last revision)
+
+```php
+<?php
+$data = array('title' => 'My new title');
+$this->Post->id = '8e64f1eadab2b3b32c94ef2scf3094420';
+$this->Post->save($data);
+```
+
+### Change a document to a particular revision
+
+```php
+<?php
+$data = array('title' => 'My new title');
+$this->Post->id = '8e64f1eadab2b3b32c94ef2scf3094420';
+$this->Post->rev = '26-5cd5713759905feeee9b384edc4cfb61';
+$this->Post->save($data);
+```
+
+### Deleting a document
+
+```php
+<?php
+$this->Post->id = '8e64f1eadab2b3b32c94ef2scf3094420';
+$this->Post->delete($data);
+```
+
+### REST
+
+You can use the methods: curlGet, curlPost, curlPut, curlDelete
+
+```php
+<?php
+$post = array(
+	'source' => 'post',
+	'target' => 'post-replicate',
+	'countinuos' => true
+);
+
+$return = $this->Post->curlPost('_replicate', $post, true, false);
+```

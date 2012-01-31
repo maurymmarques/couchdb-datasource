@@ -15,7 +15,7 @@ You can clone the plugin into your project (or if you want you can use as a [sub
 
 ```
 cd path/to/app/Plugin or /plugins
-git clone git@github.com:maurymmarques/couchdb-datasource.git CouchDB
+git clone https://github.com/maurymmarques/couchdb-datasource.git CouchDB
 ```
 
 Bootstrap the plugin in app/Config/bootstrap.php:

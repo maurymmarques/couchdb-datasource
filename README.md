@@ -6,7 +6,7 @@ CouchDB is an open source document-oriented database written mostly in the Erlan
 
 ### Version
 
-Written for CakePHP 2.0+
+Written for CakePHP 2.1+
 
 
 ### Installation

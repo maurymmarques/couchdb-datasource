@@ -93,7 +93,6 @@ class CouchDBSource extends DataSource {
 
 			try {
 				$this->Socket = new HttpSocket($this->config);
-				$this->Socket->get();
 				$this->connected = true;
 			} catch (SocketException $e) {
 				throw new MissingConnectionException(array('class' => $e->getMessage()));

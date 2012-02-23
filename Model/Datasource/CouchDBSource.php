@@ -50,9 +50,9 @@ class CouchDBSource extends DataSource {
  * @return boolean
  */
 	public function __construct($config = null, $autoConnect = true) {
-		if (!isset($config['request'])) {
-			$config['request']['uri'] = $config;
-			$config['request']['header']['Content-Type'] = 'application/json';
+		if (!Set::get($config, 'request')) {
+			$config = Set::insert($config, 'request.uri', $config);
+			$config = Set::insert($config, 'request.header.Content-Type', 'application/json');
 		}
 
 		parent::__construct($config);
@@ -85,11 +85,11 @@ class CouchDBSource extends DataSource {
  */
 	public function connect() {
 		if ($this->connected !== true) {
-			if (isset($this->config['login']))
-				$this->config['request']['uri']['user'] = $this->config['login'];
+			if (Set::get($this->config, 'login'))
+				$this->config = Set::insert($this->config, 'request.uri.user', Set::get($this->config, 'login'));
 
-			if (isset($this->config['password']))
-				$this->config['request']['uri']['pass'] = $this->config['password'];
+			if (Set::get($this->config, 'password'))
+				$this->config = Set::insert($this->config, 'request.uri.pass', Set::get($this->config, 'password'));
 
 			try {
 				$this->Socket = new HttpSocket($this->config);

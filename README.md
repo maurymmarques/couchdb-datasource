@@ -1,4 +1,4 @@
-# Couchdb datasource plugin for CakePHP
+# CouchDB datasource plugin for CakePHP
 
 DataSources are the link between models and the source of data that models represent. 
 

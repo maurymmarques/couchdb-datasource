@@ -133,7 +133,7 @@ class CouchDBSource extends DataSource {
  *
  * @return array Databases.
  */
-	public function listSources() {
+	public function listSources($data = NULL) {
 		$databases = $this->__decode($this->Socket->get($this->__uri('_all_dbs')), true);
 		return $databases;
 	}
@@ -171,7 +171,7 @@ class CouchDBSource extends DataSource {
  * @param array $values An array with key values of the fields. If null, $model->data will be used to generate the field names.
  * @return boolean Success.
  */
-	public function create($model, $fields = null, $values = null) {
+	public function create(Model $model, $fields = null, $values = null) {
 		$data = $model->data;
 		if ($fields !== null && $values !== null) {
 			$data = array_combine($fields, $values);
@@ -202,7 +202,7 @@ class CouchDBSource extends DataSource {
  * @param integer $recursive Level number of associations.
  * @return mixed False if an error occurred, otherwise an array of results.
  */
-	public function read($model, $queryData = array(), $recursive = null) {
+	public function read(Model $model, $queryData = array(), $recursive = null) {
 		if ($recursive === null && isset($queryData['recursive'])) {
 			$recursive = $queryData['recursive'];
 		}
@@ -286,7 +286,7 @@ class CouchDBSource extends DataSource {
  * @param mixed $conditions
  * @return boolean Success.
  */
-	public function update($model, $fields = null, $values = null, $conditions = null) {
+	public function update(Model $model, $fields = null, $values = null, $conditions = null) {
 		$data = $model->data[$model->alias];
 		if ($fields !== null && $values !== null) {
 			$data = array_combine($fields, $values);
@@ -346,7 +346,7 @@ class CouchDBSource extends DataSource {
  * @param mixed $conditions
  * @return boolean Success.
  */
-	public function delete($model, $conditions = null) {
+	public function delete(Model $model, $conditions = null) {
 		$id = $model->id;
 		$rev = $model->rev;
 

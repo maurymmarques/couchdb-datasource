@@ -133,7 +133,7 @@ class CouchDBSource extends DataSource {
  *
  * @return array Databases.
  */
-	public function listSources($data = NULL) {
+	public function listSources($data = null) {
 		$databases = $this->__decode($this->Socket->get($this->__uri('_all_dbs')), true);
 		return $databases;
 	}

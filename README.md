@@ -1,6 +1,6 @@
 # CouchDB datasource plugin for CakePHP
 
-CouchDB datasource is a way to improve the communication from CakePHP application to CouchDB database.
+CouchDB datasource is a way to facilitate the communication from CakePHP application to CouchDB database.
 
 DataSources are the link between models and the source of data that models represent. 
 

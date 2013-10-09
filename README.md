@@ -1,12 +1,14 @@
 # CouchDB datasource plugin for CakePHP
 
+CouchDB datasource is a way to improve the communication from CakePHP application to CouchDB database.
+
 DataSources are the link between models and the source of data that models represent. 
 
 CouchDB is an open source document-oriented database written mostly in the Erlang programming language. 
 
 ### Version
 
-Written for CakePHP 2.1+
+Written for CakePHP 2.x
 
 
 ### Installation
@@ -21,7 +23,6 @@ git clone https://github.com/maurymmarques/couchdb-datasource.git CouchDB
 Bootstrap the plugin in app/Config/bootstrap.php:
 
 ```php
-<?php
 CakePlugin::load('CouchDB');
 ```
 
@@ -30,7 +31,6 @@ CakePlugin::load('CouchDB');
 Connection in app/Config/database.php:
 
 ```php
-<?php
 class DATABASE_CONFIG {
 
 	public $default = array(
@@ -51,7 +51,8 @@ class DATABASE_CONFIG {
 
 The datasource works basically like CakePHP
 
-### Creating a model (example)
+### Creating a model
+
 ```php
 class Post extends AppModel {
 
@@ -67,13 +68,15 @@ class Post extends AppModel {
 }
 ```
 
-You can set another CouchDB database name in your model using `public $useTable = 'adlayer';`
+You can set another CouchDB database name in your model using the attribute `Model::useTable`
 
+```php
+public $useTable = 'post';
+```
 
 ### Saving a document
 
 ```php
-<?php
 $data = array('title' => 'My new title');
 $this->Post->save($data);
 
@@ -87,7 +90,6 @@ $this->Post->rev;
 ### Search for a document
 
 ```php
-<?php
 $conditions = array('Post.id' => $this->Post->id);
 $result = $this->Post->find('first', compact('conditions'));
 ```
@@ -95,7 +97,6 @@ $result = $this->Post->find('first', compact('conditions'));
 ### Change a document (changing the last revision)
 
 ```php
-<?php
 $data = array('title' => 'My new title');
 $this->Post->id = '8e64f1eadab2b3b32c94ef2scf3094420';
 $this->Post->save($data);
@@ -104,7 +105,6 @@ $this->Post->save($data);
 ### Change a document to a particular revision
 
 ```php
-<?php
 $data = array('title' => 'My new title');
 $this->Post->id = '8e64f1eadab2b3b32c94ef2scf3094420';
 $this->Post->rev = '26-5cd5713759905feeee9b384edc4cfb61';
@@ -114,7 +114,6 @@ $this->Post->save($data);
 ### Deleting a document
 
 ```php
-<?php
 $this->Post->id = '8e64f1eadab2b3b32c94ef2scf3094420';
 $this->Post->delete($data);
 ```
@@ -124,7 +123,6 @@ $this->Post->delete($data);
 You can use the methods: curlGet, curlPost, curlPut, curlDelete
 
 ```php
-<?php
 $post = array(
 	'source' => 'post',
 	'target' => 'post-replicate',

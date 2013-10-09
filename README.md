@@ -11,7 +11,7 @@ CouchDB is an open source document-oriented database written mostly in the Erlan
 Written for CakePHP 2.x
 
 
-### Installation
+## Installation
 
 You can clone the plugin into your project (or if you want you can use as a [submodule](http://help.github.com/submodules)):
 
@@ -26,7 +26,7 @@ Bootstrap the plugin in app/Config/bootstrap.php:
 CakePlugin::load('CouchDB');
 ```
 
-### Configuration
+## Configuration
 
 Connection in app/Config/database.php:
 

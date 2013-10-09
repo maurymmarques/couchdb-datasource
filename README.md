@@ -71,7 +71,7 @@ class Post extends AppModel {
 You can set another CouchDB database name in your model using the attribute `Model::useTable`
 
 ```php
-public $useTable = 'post';
+public $useTable = 'posts';
 ```
 
 ### Saving a document

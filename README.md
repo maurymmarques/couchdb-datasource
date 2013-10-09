@@ -132,6 +132,6 @@ $post = array(
 $return = $this->Post->curlPost('_replicate', $post, true, false);
 ```
 
-### Copyright
+## Copyright
 
 Copyright (c) 2011 Maury M. Marques

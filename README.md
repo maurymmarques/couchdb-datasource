@@ -51,6 +51,25 @@ class DATABASE_CONFIG {
 
 The datasource works basically like CakePHP
 
+### Creating a model (example)
+```php
+class Post extends AppModel {
+
+	public $schema = array(
+		'title' => array(
+			'type' => 'string',
+			'null' => true,
+			'key' => 'primary',
+			'length' => 32
+		)
+	);
+
+}
+```
+
+You can set another CouchDB database name in your model using `public $useTable = 'adlayer';`
+
+
 ### Saving a document
 
 ```php

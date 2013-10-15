@@ -1,46 +1,31 @@
 <?php
 /**
- * CouchDB Datasource
+ * CouchDB layer for DBO
  *
- * PHP version 5
+ * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
- * @package       datasources
- * @subpackage    datasources.models.datasources
- * @since         CakePHP Datasources v 0.3
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @package       Plugin.Model.Datasource
+ * @since         CakePHP(tm) v 0.9
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 App::uses('HttpSocket', 'Network/Http');
-App::uses('DataSource', 'Model/Datasource');
 
 /**
  * CouchDB Datasource
  *
- * @package datasources
- * @subpackage datasources.models.datasources
+ * @package       Plugin.Model.Datasource
  */
 class CouchDBSource extends DataSource {
-
-/**
- * Start quote
- *
- * @var string
- */
-	public $startQuote = null;
-
-/**
- * End quote
- *
- * @var string
- */
-	public $endQuote = null;
 
 /**
  * Constructor.
@@ -131,24 +116,12 @@ class CouchDBSource extends DataSource {
 /**
  * List of databases.
  *
+ * @param mixed $data
  * @return array Databases.
  */
 	public function listSources($data = null) {
 		$databases = $this->__decode($this->Socket->get($this->__uri('_all_dbs')), true);
 		return $databases;
-	}
-
-/**
- * Convenience method for DboSource::listSources().
- * Returns the names of databases in lowercase.
- *
- * @return array Lowercase databases.
- */
-	public function sources($reset = false) {
-		if ($reset === true) {
-			$this->_sources = null;
-		}
-		return array_map('strtolower', $this->listSources());
 	}
 
 /**
@@ -390,9 +363,10 @@ class CouchDBSource extends DataSource {
  *
  * @param mixed $model
  * @param boolean $quote
+ * @param boolean $schema
  * @return string Full name of table.
  */
-	public function fullTableName($model = null, $quote = true) {
+	public function fullTableName($model, $quote = true, $schema = true) {
 		$table = null;
 		if (is_object($model)) {
 			$table = $model->tablePrefix . $model->table;
@@ -421,7 +395,7 @@ class CouchDBSource extends DataSource {
  *		$this->Model->curlPost('document_name', array('field' => 'value'), true , false);
  *
  * @param string $method
- * @param array $params Parâmetros aceitos na ordem: uri, data, decode, assoc
+ * @param array $params Accepted parameters in order: uri, data, decode, assoc
  * @return object
  */
 	public function query($method, $params) {

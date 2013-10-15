@@ -28,7 +28,6 @@ App::uses('AppModel', 'Model');
 class Post extends AppModel {
 
 	public $name = 'Post';
-	public $useDbConfig = 'couchdb_test';
 	public $displayField = 'title';
 	public $recursive = -1;
 
@@ -104,9 +103,10 @@ class CouchDBTestCase extends CakeTestCase {
 /**
  * Start Test
  *
+ * @param string $method
  * @return void
  */
-	public function startTest() {
+	public function startTest($method) {
 		config('database');
 		$config = new DATABASE_CONFIG();
 
@@ -117,6 +117,7 @@ class CouchDBTestCase extends CakeTestCase {
 		ConnectionManager::create('couchdb_test', $this->config);
 
 		$this->Post = ClassRegistry::init('Post');
+		$this->Post->useDbConfig = 'couchdb_test';
 		$this->removeAllDocuments();
 	}
 
@@ -127,7 +128,7 @@ class CouchDBTestCase extends CakeTestCase {
  */
 	public function testConnection() {
 		$this->CouchDB = new CouchDBSource($this->config);
-		$this->CouchDB =& ConnectionManager::getDataSource($this->Post->useDbConfig);
+		$this->CouchDB = ConnectionManager::getDataSource($this->Post->useDbConfig);
 
 		$reconnect = $this->CouchDB->reconnect($this->config);
 		$this->assertIdentical($reconnect, true, __d('test_cases', 'Not reconnected'));
@@ -608,9 +609,10 @@ class CouchDBTestCase extends CakeTestCase {
 /**
  * End Test
  *
+ * @param string $method
  * @return void
  */
-	public function endTest() {
+	public function endTest($method) {
 		$this->removeAllDocuments();
 		unset($this->Post);
 		unset($this->CouchDB);

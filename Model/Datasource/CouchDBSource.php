@@ -188,8 +188,13 @@ class CouchDBSource extends DataSource {
 
 		if (empty($queryData['conditions'])) {
 			$params = $params . '_all_docs?include_docs=true';
+
 			if (!empty($queryData['limit'])) {
 				$params = $params . '&limit=' . $queryData['limit'];
+			}
+
+			if (!empty($queryData['offset'])) {
+				$params .= '&skip=' . $queryData['offset'];
 			}
 		} else {
 			if (isset($queryData['conditions'][$model->alias . '.' . $model->primaryKey])) {

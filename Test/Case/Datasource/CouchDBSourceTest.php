@@ -20,7 +20,7 @@
 App::uses('AppModel', 'Model');
 
 /**
- * Post Model for the test
+ * Post Model for the test.
  *
  * @package app
  * @subpackage app.model.post
@@ -70,7 +70,7 @@ class Post extends AppModel {
 }
 
 /**
- * CouchDBTestCase
+ * CouchDBTestCase.
  *
  * @package       datasources
  * @subpackage    datasources.tests.cases.models.datasources
@@ -78,30 +78,30 @@ class Post extends AppModel {
 class CouchDBTestCase extends CakeTestCase {
 
 /**
- * CouchDB Datasource object
+ * CouchDB Datasource object.
  *
  * @var object
  */
 	public $CouchDB = null;
 
 /**
- * Configuration
+ * Configuration.
  *
  * @var array
  */
 	protected $config = array(
-		'datasource' 	=> 'CouchDB.CouchDBSource',
-		'persistent' 	=> false,
-		'host'		 	=> 'localhost',
-		'port' 	  	 	=> '5984',
-		'login' 	 	=> 'root',
-		'password'   	=> 'root',
-		'database'   	=> null,
-		'prefix'		=> ''
+		'datasource' => 'CouchDB.CouchDBSource',
+		'persistent' => false,
+		'host' => 'localhost',
+		'port' => '5984',
+		'login' => 'root',
+		'password' => '',
+		'database' => null,
+		'prefix' => '',
 	);
 
 /**
- * Start Test
+ * Start Test.
  *
  * @return void
  */
@@ -121,7 +121,7 @@ class CouchDBTestCase extends CakeTestCase {
 	}
 
 /**
- * testConnection
+ * Test connection.
  *
  * @return void
  */
@@ -137,7 +137,7 @@ class CouchDBTestCase extends CakeTestCase {
 	}
 
 /**
- * testFind
+ * Test find.
  *
  * @return void
  */
@@ -160,9 +160,8 @@ class CouchDBTestCase extends CakeTestCase {
 		$this->assertEquals($data['description'], $resultData['description']);
 	}
 
-
 /**
- * testFindConditions
+ * Test find conditions.
  *
  * @return void
  */
@@ -187,7 +186,7 @@ class CouchDBTestCase extends CakeTestCase {
 	}
 
 /**
- * testFindRevs
+ * Test find revs.
  *
  * @return void
  */
@@ -309,8 +308,13 @@ class CouchDBTestCase extends CakeTestCase {
 		);
 
 		$mapReduce = $this->Post->query($uri, $post);
-		if(isset($mapReduce->rows[0]->value)) $count0 = $mapReduce->rows[0]->value;
-		else $count0 = 0;
+
+		if (isset($mapReduce->rows[0]->value)) {
+			$count0 = $mapReduce->rows[0]->value;
+		}
+		else {
+			$count0 = 0;
+		}
 
 		$count1 = $this->updateTest1($uri, $post, $count0);
 		$count2 = $this->updateTest2($uri, $post, $count1);
@@ -329,7 +333,6 @@ class CouchDBTestCase extends CakeTestCase {
 		$this->assertEquals($this->Post->rev, $resultData['rev']);
 		$this->assertNotEquals($updateData['title'], $resultData['title']);
 		$this->assertNotEquals($updateData['description'], $resultData['description']);
-
 	}
 
 /**
@@ -337,8 +340,8 @@ class CouchDBTestCase extends CakeTestCase {
  *
  * @param string $uri
  * @param array $post
- * @param interger $previousCount
- * @return void
+ * @param integer $previousCount
+ * @return integer
  */
 	private function updateTest1($uri, $post, $previousCount) {
 		$data = array(
@@ -364,8 +367,8 @@ class CouchDBTestCase extends CakeTestCase {
  *
  * @param string $uri
  * @param array $post
- * @param interger $previousCount
- * @return void
+ * @param integer $previousCount
+ * @return integer
  */
 	private function updateTest2($uri, $post, $previousCount) {
 		$findResult = $this->Post->find('first');
@@ -394,8 +397,8 @@ class CouchDBTestCase extends CakeTestCase {
  *
  * @param string $uri
  * @param array $post
- * @param interger $previousCount
- * @return void
+ * @param integer $previousCount
+ * @return integer
  */
 	private function updateTest3($uri, $post, $previousCount) {
 		$findResult = $this->Post->find('first');
@@ -425,8 +428,8 @@ class CouchDBTestCase extends CakeTestCase {
  *
  * @param string $uri
  * @param array $post
- * @param interger $previousCount
- * @return void
+ * @param integer $previousCount
+ * @return integer
  */
 	private function updateTest4($uri, $post, $previousCount) {
 		$findResult = $this->Post->find('first');
@@ -456,8 +459,8 @@ class CouchDBTestCase extends CakeTestCase {
  *
  * @param string $uri
  * @param array $post
- * @param interger $previousCount
- * @return void
+ * @param integer $previousCount
+ * @return integer
  */
 	private function updateTest5($uri, $post, $previousCount) {
 		$findResult = $this->Post->find('first');
@@ -479,11 +482,11 @@ class CouchDBTestCase extends CakeTestCase {
 
 		$this->assertSame($count5 - $previousCount, 0);
 
-		return $updateData;
+		return $count5;
 	}
 
 /**
- * Test update without revision
+ * Test update without revision.
  *
  * @return void
  */
@@ -533,7 +536,7 @@ class CouchDBTestCase extends CakeTestCase {
 	}
 
 /**
- * Test delete without revision
+ * Test delete without revision.
  *
  * @return void
  */
@@ -593,12 +596,13 @@ class CouchDBTestCase extends CakeTestCase {
 	}
 
 /**
- * Remove all documents from database
+ * Remove all documents from database.
  *
  * @return void
  */
 	private function removeAllDocuments() {
 		$posts = $this->Post->find('list', array('fields' => array('Post.rev')));
+
 		foreach($posts as $id => $post) {
 			$this->Post->rev = $post;
 			$this->Post->delete($id);

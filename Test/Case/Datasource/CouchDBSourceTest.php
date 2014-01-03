@@ -20,7 +20,7 @@
 App::uses('AppModel', 'Model');
 
 /**
- * Post Model for the test
+ * Post Model for the test.
  *
  * @package app
  * @subpackage app.model.post
@@ -70,7 +70,7 @@ class Post extends AppModel {
 }
 
 /**
- * CouchDBTestCase
+ * CouchDBTestCase.
  *
  * @package       datasources
  * @subpackage    datasources.tests.cases.models.datasources
@@ -78,35 +78,34 @@ class Post extends AppModel {
 class CouchDBTestCase extends CakeTestCase {
 
 /**
- * CouchDB Datasource object
+ * CouchDB Datasource object.
  *
  * @var object
  */
 	public $CouchDB = null;
 
 /**
- * Configuration
+ * Configuration.
  *
  * @var array
  */
 	protected $config = array(
-		'datasource' 	=> 'CouchDB.CouchDBSource',
-		'persistent' 	=> false,
-		'host'		 	=> 'localhost',
-		'port' 	  	 	=> '5984',
-		'login' 	 	=> 'root',
-		'password'   	=> 'root',
-		'database'   	=> null,
-		'prefix'		=> ''
+		'datasource' => 'CouchDB.CouchDBSource',
+		'persistent' => false,
+		'host' => 'localhost',
+		'port' => '5984',
+		'login' => 'root',
+		'password' => '',
+		'database' => null,
+		'prefix' => '',
 	);
 
 /**
- * Start Test
+ * Start Test.
  *
- * @param string $method
  * @return void
  */
-	public function startTest($method) {
+	public function setUp() {
 		config('database');
 		$config = new DATABASE_CONFIG();
 
@@ -122,7 +121,7 @@ class CouchDBTestCase extends CakeTestCase {
 	}
 
 /**
- * testConnection
+ * Test connection.
  *
  * @return void
  */
@@ -131,14 +130,14 @@ class CouchDBTestCase extends CakeTestCase {
 		$this->CouchDB = ConnectionManager::getDataSource($this->Post->useDbConfig);
 
 		$reconnect = $this->CouchDB->reconnect($this->config);
-		$this->assertIdentical($reconnect, true, __d('test_cases', 'Not reconnected'));
+		$this->assertSame($reconnect, true, __d('test_cases', 'Not reconnected'));
 
 		$disconnect = $this->CouchDB->disconnect();
-		$this->assertIdentical($disconnect, true, __d('test_cases', 'Not disconnect'));
+		$this->assertSame($disconnect, true, __d('test_cases', 'Not disconnect'));
 	}
 
 /**
- * testFind
+ * Test find.
  *
  * @return void
  */
@@ -150,20 +149,19 @@ class CouchDBTestCase extends CakeTestCase {
 		$this->Post->save($data);
 
 		$result = $this->Post->find('all');
-		$this->assertEqual(1, count($result));
+		$this->assertEquals(1, count($result));
 
 		$resultData = $result[0]['Post'];
-		$this->assertEqual(4, count($resultData));
+		$this->assertEquals(4, count($resultData));
 		$this->assertTrue(!empty($resultData['id']));
-		$this->assertEqual($this->Post->id, $resultData['id']);
-		$this->assertEqual($this->Post->rev, $resultData['rev']);
-		$this->assertEqual($data['title'], $resultData['title']);
-		$this->assertEqual($data['description'], $resultData['description']);
+		$this->assertEquals($this->Post->id, $resultData['id']);
+		$this->assertEquals($this->Post->rev, $resultData['rev']);
+		$this->assertEquals($data['title'], $resultData['title']);
+		$this->assertEquals($data['description'], $resultData['description']);
 	}
 
-
 /**
- * testFindConditions
+ * Test find conditions.
  *
  * @return void
  */
@@ -178,17 +176,17 @@ class CouchDBTestCase extends CakeTestCase {
 		$this->Post->save($data);
 
 		$result = $this->Post->find('all');
-		$this->assertEqual(2, count($result));
+		$this->assertEquals(2, count($result));
 
 		$result = $this->Post->find('all', array('conditions' => array('Post.id' => $this->Post->id)));
-		$this->assertEqual(1, count($result));
+		$this->assertEquals(1, count($result));
 
 		$result = $this->Post->find('all', array('conditions' => array('id' => $this->Post->id)));
-		$this->assertEqual(1, count($result));
+		$this->assertEquals(1, count($result));
 	}
 
 /**
- * testFindRevs
+ * Test find revs.
  *
  * @return void
  */
@@ -202,7 +200,7 @@ class CouchDBTestCase extends CakeTestCase {
 
 		$this->Post->recursive = 0;
 		$result = $this->Post->find('all', array('conditions' => array('id' => $this->Post->id)));
-		$this->assertEqual(2, count($result[0]['Post']['_revs_info']));
+		$this->assertEquals(2, count($result[0]['Post']['_revs_info']));
 	}
 
 /**
@@ -218,18 +216,18 @@ class CouchDBTestCase extends CakeTestCase {
 
 		$this->Post->create();
 		$saveResult = $this->Post->save($data);
-		$this->assertIdentical(is_array($saveResult), true);
+		$this->assertSame(is_array($saveResult), true);
 
 		$result = $this->Post->find('all');
-		$this->assertEqual(1, count($result));
+		$this->assertEquals(1, count($result));
 
 		$resultData = $result[0]['Post'];
-		$this->assertEqual(4, count($resultData));
+		$this->assertEquals(4, count($resultData));
 		$this->assertTrue(!empty($resultData['id']));
-		$this->assertEqual($this->Post->id, $resultData['id']);
-		$this->assertEqual($this->Post->rev, $resultData['rev']);
-		$this->assertEqual($data['title'], $resultData['title']);
-		$this->assertEqual($data['description'], $resultData['description']);
+		$this->assertEquals($this->Post->id, $resultData['id']);
+		$this->assertEquals($this->Post->rev, $resultData['rev']);
+		$this->assertEquals($data['title'], $resultData['title']);
+		$this->assertEquals($data['description'], $resultData['description']);
 	}
 
 /**
@@ -246,19 +244,19 @@ class CouchDBTestCase extends CakeTestCase {
 
 		$this->Post->create();
 		$saveResult = $this->Post->save($data);
-		$this->assertIdentical(is_array($saveResult), true);
+		$this->assertSame(is_array($saveResult), true);
 
 		$result = $this->Post->find('all');
-		$this->assertEqual(1, count($result));
+		$this->assertEquals(1, count($result));
 
 		$resultData = $result[0]['Post'];
-		$this->assertEqual(4, count($resultData));
+		$this->assertEquals(4, count($resultData));
 		$this->assertTrue(!empty($resultData['id']));
-		$this->assertEqual($resultData['id'], $data['id']);
-		$this->assertEqual($this->Post->id, $resultData['id']);
-		$this->assertEqual($this->Post->rev, $resultData['rev']);
-		$this->assertEqual($data['title'], $resultData['title']);
-		$this->assertEqual($data['description'], $resultData['description']);
+		$this->assertEquals($resultData['id'], $data['id']);
+		$this->assertEquals($this->Post->id, $resultData['id']);
+		$this->assertEquals($this->Post->rev, $resultData['rev']);
+		$this->assertEquals($data['title'], $resultData['title']);
+		$this->assertEquals($data['description'], $resultData['description']);
 	}
 
 /**
@@ -281,19 +279,19 @@ class CouchDBTestCase extends CakeTestCase {
 		$saveResult = $this->Post->saveAll($data);
 
 		$result = $this->Post->find('all');
-		$this->assertEqual(2, count($result));
+		$this->assertEquals(2, count($result));
 
 		$resultData = $result[0]['Post'];
-		$this->assertEqual(4, count($resultData));
+		$this->assertEquals(4, count($resultData));
 		$this->assertTrue(!empty($resultData['id']));
-		$this->assertEqual($data[0]['Post']['title'], $resultData['title']);
-		$this->assertEqual($data[0]['Post']['description'], $resultData['description']);
+		$this->assertEquals($data[0]['Post']['title'], $resultData['title']);
+		$this->assertEquals($data[0]['Post']['description'], $resultData['description']);
 
 		$resultData = $result[1]['Post'];
-		$this->assertEqual(4, count($resultData));
+		$this->assertEquals(4, count($resultData));
 		$this->assertTrue(!empty($resultData['id']));
-		$this->assertEqual($data[1]['Post']['title'], $resultData['title']);
-		$this->assertEqual($data[1]['Post']['description'], $resultData['description']);
+		$this->assertEquals($data[1]['Post']['title'], $resultData['title']);
+		$this->assertEquals($data[1]['Post']['description'], $resultData['description']);
 	}
 
 /**
@@ -310,8 +308,13 @@ class CouchDBTestCase extends CakeTestCase {
 		);
 
 		$mapReduce = $this->Post->query($uri, $post);
-		if(isset($mapReduce->rows[0]->value)) $count0 = $mapReduce->rows[0]->value;
-		else $count0 = 0;
+
+		if (isset($mapReduce->rows[0]->value)) {
+			$count0 = $mapReduce->rows[0]->value;
+		}
+		else {
+			$count0 = 0;
+		}
 
 		$count1 = $this->updateTest1($uri, $post, $count0);
 		$count2 = $this->updateTest2($uri, $post, $count1);
@@ -321,16 +324,15 @@ class CouchDBTestCase extends CakeTestCase {
 
 		// Final test
 		$result = $this->Post->find('all');
-		$this->assertEqual(1, count($result));
+		$this->assertEquals(1, count($result));
 
 		$resultData = $result[0]['Post'];
-		$this->assertEqual(4, count($resultData));
+		$this->assertEquals(4, count($resultData));
 		$this->assertTrue(!empty($resultData['id']));
-		$this->assertEqual($this->Post->id, $resultData['id']);
-		$this->assertEqual($this->Post->rev, $resultData['rev']);
-		$this->assertNotEqual($updateData['title'], $resultData['title']);
-		$this->assertNotEqual($updateData['description'], $resultData['description']);
-
+		$this->assertEquals($this->Post->id, $resultData['id']);
+		$this->assertEquals($this->Post->rev, $resultData['rev']);
+		$this->assertNotEquals($updateData['title'], $resultData['title']);
+		$this->assertNotEquals($updateData['description'], $resultData['description']);
 	}
 
 /**
@@ -338,8 +340,8 @@ class CouchDBTestCase extends CakeTestCase {
  *
  * @param string $uri
  * @param array $post
- * @param interger $previousCount
- * @return void
+ * @param integer $previousCount
+ * @return integer
  */
 	private function updateTest1($uri, $post, $previousCount) {
 		$data = array(
@@ -349,13 +351,13 @@ class CouchDBTestCase extends CakeTestCase {
 
 		$this->Post->create();
 		$saveResult = $this->Post->save($data);
-		$this->assertIdentical(is_array($saveResult), true);
-		$this->assertIdentical(!empty($this->Post->id), true);
+		$this->assertSame(is_array($saveResult), true);
+		$this->assertSame(!empty($this->Post->id), true);
 
 		$mapReduce = $this->Post->curlPost($uri, $post);
 		$count1 = $mapReduce['rows'][0]['value'];
 
-		$this->assertIdentical($count1 - $previousCount, 1);
+		$this->assertSame($count1 - $previousCount, 1);
 
 		return $count1;
 	}
@@ -365,12 +367,12 @@ class CouchDBTestCase extends CakeTestCase {
  *
  * @param string $uri
  * @param array $post
- * @param interger $previousCount
- * @return void
+ * @param integer $previousCount
+ * @return integer
  */
 	private function updateTest2($uri, $post, $previousCount) {
 		$findResult = $this->Post->find('first');
-		$this->assertEqual(4, count($findResult['Post']));
+		$this->assertEquals(4, count($findResult['Post']));
 
 		$updateData = array(
 			'title' => 'My post update',
@@ -380,12 +382,12 @@ class CouchDBTestCase extends CakeTestCase {
 		$this->Post->id = $findResult['Post']['id'];
 		$this->Post->rev = $findResult['Post']['rev'];
 		$saveResult = $this->Post->save($updateData);
-		$this->assertIdentical(is_array($saveResult), true);
+		$this->assertSame(is_array($saveResult), true);
 
 		$mapReduce = $this->Post->curlPost($uri, $post);
 		$count2 = $mapReduce['rows'][0]['value'];
 
-		$this->assertIdentical($count2 - $previousCount, 0);
+		$this->assertSame($count2 - $previousCount, 0);
 
 		return $count2;
 	}
@@ -395,12 +397,12 @@ class CouchDBTestCase extends CakeTestCase {
  *
  * @param string $uri
  * @param array $post
- * @param interger $previousCount
- * @return void
+ * @param integer $previousCount
+ * @return integer
  */
 	private function updateTest3($uri, $post, $previousCount) {
 		$findResult = $this->Post->find('first');
-		$this->assertEqual(4, count($findResult['Post']));
+		$this->assertEquals(4, count($findResult['Post']));
 
 		$updateData = array(
 			'id' => $findResult['Post']['id'],
@@ -410,13 +412,13 @@ class CouchDBTestCase extends CakeTestCase {
 
 		$this->Post->rev = $findResult['Post']['rev'];
 		$saveResult = $this->Post->save($updateData);
-		$this->assertIdentical(is_array($saveResult), true);
-		$this->assertIdentical($this->Post->id, $findResult['Post']['id']);
+		$this->assertSame(is_array($saveResult), true);
+		$this->assertSame($this->Post->id, $findResult['Post']['id']);
 
 		$mapReduce = $this->Post->curlPost($uri, $post);
 		$count3 = $mapReduce['rows'][0]['value'];
 
-		$this->assertIdentical($count3 - $previousCount, 0);
+		$this->assertSame($count3 - $previousCount, 0);
 
 		return $count3;
 	}
@@ -426,12 +428,12 @@ class CouchDBTestCase extends CakeTestCase {
  *
  * @param string $uri
  * @param array $post
- * @param interger $previousCount
- * @return void
+ * @param integer $previousCount
+ * @return integer
  */
 	private function updateTest4($uri, $post, $previousCount) {
 		$findResult = $this->Post->find('first');
-		$this->assertEqual(4, count($findResult['Post']));
+		$this->assertEquals(4, count($findResult['Post']));
 
 		$updateData = array(
 			'id' => $findResult['Post']['id'],
@@ -441,13 +443,13 @@ class CouchDBTestCase extends CakeTestCase {
 		);
 
 		$saveResult = $this->Post->save($updateData);
-		$this->assertIdentical(is_array($saveResult), true);
-		$this->assertIdentical($this->Post->id, $findResult['Post']['id']);
+		$this->assertSame(is_array($saveResult), true);
+		$this->assertSame($this->Post->id, $findResult['Post']['id']);
 
 		$mapReduce = $this->Post->curlPost($uri, $post);
 		$count4 = $mapReduce['rows'][0]['value'];
 
-		$this->assertIdentical($count4 - $previousCount, 0);
+		$this->assertSame($count4 - $previousCount, 0);
 
 		return $count4;
 	}
@@ -457,12 +459,12 @@ class CouchDBTestCase extends CakeTestCase {
  *
  * @param string $uri
  * @param array $post
- * @param interger $previousCount
- * @return void
+ * @param integer $previousCount
+ * @return integer
  */
 	private function updateTest5($uri, $post, $previousCount) {
 		$findResult = $this->Post->find('first');
-		$this->assertEqual(4, count($findResult['Post']));
+		$this->assertEquals(4, count($findResult['Post']));
 
 		$updateData = array(
 			'id' => $findResult['Post']['id'],
@@ -473,18 +475,18 @@ class CouchDBTestCase extends CakeTestCase {
 
 		$saveResult = $this->Post->save($updateData);
 		$this->assertFalse($saveResult);
-		$this->assertIdentical($this->Post->id, $findResult['Post']['id']);
+		$this->assertSame($this->Post->id, $findResult['Post']['id']);
 
 		$mapReduce = $this->Post->curlPost($uri, $post);
 		$count5 = $mapReduce['rows'][0]['value'];
 
-		$this->assertIdentical($count5 - $previousCount, 0);
+		$this->assertSame($count5 - $previousCount, 0);
 
-		return $updateData;
+		return $count5;
 	}
 
 /**
- * Test update without revision
+ * Test update without revision.
  *
  * @return void
  */
@@ -504,8 +506,8 @@ class CouchDBTestCase extends CakeTestCase {
 
 		$updateResult = $this->Post->save($result);
 
-		$this->assertIdentical(is_array($updateResult), true);
-		$this->assertIdentical($this->Post->id, $saveResult['Post']['id']);
+		$this->assertSame(is_array($updateResult), true);
+		$this->assertSame($this->Post->id, $saveResult['Post']['id']);
 	}
 
 /**
@@ -523,18 +525,18 @@ class CouchDBTestCase extends CakeTestCase {
 		$saveResult = $this->Post->save($data);
 
 		$result = $this->Post->find('all');
-		$this->assertEqual(1, count($result));
+		$this->assertEquals(1, count($result));
 
 		$this->Post->id = $result[0]['Post']['id'];
 		$this->Post->rev = $result[0]['Post']['rev'];
 		$this->Post->delete();
 
 		$result = $this->Post->find('all');
-		$this->assertEqual(0, count($result));
+		$this->assertEquals(0, count($result));
 	}
 
 /**
- * Test delete without revision
+ * Test delete without revision.
  *
  * @return void
  */
@@ -548,7 +550,7 @@ class CouchDBTestCase extends CakeTestCase {
 		$saveResult = $this->Post->save($data);
 
 		$result = $this->Post->find('all');
-		$this->assertEqual(1, count($result));
+		$this->assertEquals(1, count($result));
 
 		unset($result['Post']['rev']);
 		unset($this->Post->rev);
@@ -556,7 +558,7 @@ class CouchDBTestCase extends CakeTestCase {
 		$this->Post->delete();
 
 		$result = $this->Post->find('all');
-		$this->assertEqual(0, count($result));
+		$this->assertEquals(0, count($result));
 	}
 
 /**
@@ -567,7 +569,7 @@ class CouchDBTestCase extends CakeTestCase {
 	public function testQuery() {
 		// GET
 		$result = $this->Post->curlGet('_all_dbs');
-		$this->assertIdentical(is_array($result), true);
+		$this->assertSame(is_array($result), true);
 
 		// POST
 		$data = array(
@@ -576,7 +578,7 @@ class CouchDBTestCase extends CakeTestCase {
 		);
 
 		$result = $this->Post->curlPost('/posts',  $data);
-		$this->assertIdentical($result['ok'], true);
+		$this->assertSame($result['ok'], true);
 
 		// PUT
 		$data = array(
@@ -586,20 +588,21 @@ class CouchDBTestCase extends CakeTestCase {
 		);
 
 		$result = $this->Post->curlPut('/posts/' . $result['id'],  $data);
-		$this->assertIdentical($result['ok'], true);
+		$this->assertSame($result['ok'], true);
 
 		// DELETE
 		$result = $this->Post->curlDelete('/posts/' . $result['id'] . '/?rev=' . $result['rev']);
-		$this->assertIdentical($result['ok'], true);
+		$this->assertSame($result['ok'], true);
 	}
 
 /**
- * Remove all documents from database
+ * Remove all documents from database.
  *
  * @return void
  */
 	private function removeAllDocuments() {
 		$posts = $this->Post->find('list', array('fields' => array('Post.rev')));
+
 		foreach($posts as $id => $post) {
 			$this->Post->rev = $post;
 			$this->Post->delete($id);
@@ -609,10 +612,9 @@ class CouchDBTestCase extends CakeTestCase {
 /**
  * End Test
  *
- * @param string $method
  * @return void
  */
-	public function endTest($method) {
+	public function tearDown() {
 		$this->removeAllDocuments();
 		unset($this->Post);
 		unset($this->CouchDB);

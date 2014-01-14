@@ -196,6 +196,14 @@ class CouchDBSource extends DataSource {
 			if (!empty($queryData['offset'])) {
 				$params .= '&skip=' . $queryData['offset'];
 			}
+
+			if (!empty($queryData['startkey_docid'])) {
+				$params .= '&startkey_docid=' . $queryData['startkey_docid'];
+			}
+
+			if (!empty($queryData['descending'])) {
+				$params .= '&descending=' . $queryData['descending'];
+			}
 		} else {
 			if (isset($queryData['conditions'][$model->alias . '.' . $model->primaryKey])) {
 				$params = $queryData['conditions'][$model->alias . '.' . $model->primaryKey];

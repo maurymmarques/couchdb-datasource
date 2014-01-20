@@ -152,6 +152,7 @@ class CouchDBSource extends DataSource {
 
 		if (isset($data[$model->primaryKey]) && !empty($data[$model->primaryKey])) {
 			$params = $data[$model->primaryKey];
+			unset($data[$model->primaryKey]);
 		} else {
 			$uuids = $this->__decode($this->Socket->get('/_uuids'));
 			$params = $uuids->uuids[0];

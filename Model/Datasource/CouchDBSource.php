@@ -1,8 +1,6 @@
 <?php
 /**
- * CouchDB layer for DBO
- *
- * PHP 5
+ * CouchDB layer for DBO.
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
@@ -13,7 +11,7 @@
  *
  * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
- * @package       Plugin.Model.Datasource
+ * @package       CouchDB.Model.Datasource
  * @since         CakePHP(tm) v 0.9
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
@@ -21,9 +19,9 @@
 App::uses('HttpSocket', 'Network/Http');
 
 /**
- * CouchDB Datasource
+ * CouchDB Datasource.
  *
- * @package       Plugin.Model.Datasource
+ * @package       CouchDB.Model.Datasource
  */
 class CouchDBSource extends DataSource {
 
@@ -60,6 +58,7 @@ class CouchDBSource extends DataSource {
 		$this->disconnect();
 		$this->setConfig($config);
 		$this->_sources = null;
+
 		return $this->connect();
 	}
 
@@ -67,14 +66,17 @@ class CouchDBSource extends DataSource {
  * Connects to the database. Options are specified in the $config instance variable.
  *
  * @return boolean Connected.
+ * @throws MissingConnectionException
  */
 	public function connect() {
 		if ($this->connected !== true) {
-			if (Set::check($this->config, 'login'))
+			if (Set::check($this->config, 'login')) {
 				$this->config = Set::insert($this->config, 'request.uri.user', Set::get($this->config, 'login'));
+			}
 
-			if (Set::check($this->config, 'password'))
+			if (Set::check($this->config, 'password')) {
 				$this->config = Set::insert($this->config, 'request.uri.pass', Set::get($this->config, 'password'));
+			}
 
 			try {
 				$this->Socket = new HttpSocket($this->config);
@@ -83,6 +85,7 @@ class CouchDBSource extends DataSource {
 				throw new MissingConnectionException(array('class' => $e->getMessage()));
 			}
 		}
+
 		return $this->connected;
 	}
 
@@ -97,6 +100,7 @@ class CouchDBSource extends DataSource {
 		if (Configure::read('debug') > 1) {
 			//$this->showLog();
 		}
+
 		$this->disconnect();
 	}
 
@@ -109,7 +113,9 @@ class CouchDBSource extends DataSource {
 		if (isset($this->results) && is_resource($this->results)) {
 			$this->results = null;
 		}
+
 		$this->connected = false;
+
 		return !$this->connected;
 	}
 
@@ -121,6 +127,7 @@ class CouchDBSource extends DataSource {
  */
 	public function listSources($data = null) {
 		$databases = $this->__decode($this->Socket->get($this->__uri('_all_dbs')), true);
+
 		return $databases;
 	}
 
@@ -146,6 +153,7 @@ class CouchDBSource extends DataSource {
  */
 	public function create(Model $model, $fields = null, $values = null) {
 		$data = $model->data;
+
 		if ($fields !== null && $values !== null) {
 			$data = array_combine($fields, $values);
 		}
@@ -163,8 +171,10 @@ class CouchDBSource extends DataSource {
 		if ($this->__checkOk($result)) {
 			$model->id = $result->id;
 			$model->rev = $result->rev;
+
 			return true;
 		}
+
 		return false;
 	}
 
@@ -219,6 +229,7 @@ class CouchDBSource extends DataSource {
 
 		$result = array();
 		$result[0][$model->alias] = $this->__decode($this->Socket->get($this->__uri($model, $params)), true);
+
 		return $this->__readResult($model, $queryData, $result);
 	}
 
@@ -243,10 +254,10 @@ class CouchDBSource extends DataSource {
 			unset($result[0][$model->alias]['_rev']);
 
 			return $result;
-		} else if (isset($result[0][$model->alias]['rows'])) {
+		} elseif (isset($result[0][$model->alias]['rows'])) {
 			$docs = array();
-			foreach ($result[0][$model->alias]['rows'] as $k => $doc) {
 
+			foreach ($result[0][$model->alias]['rows'] as $k => $doc) {
 				$docs[$k][$model->alias]['id'] = $doc['doc']['_id'];
 				$docs[$k][$model->alias]['rev'] = $doc['doc']['_rev'];
 
@@ -259,8 +270,10 @@ class CouchDBSource extends DataSource {
 					$docs[$k][$model->alias][$field] = $value;
 				}
 			}
+
 			return $docs;
 		}
+
 		return false;
 	}
 
@@ -275,6 +288,7 @@ class CouchDBSource extends DataSource {
  */
 	public function update(Model $model, $fields = null, $values = null, $conditions = null) {
 		$data = $model->data[$model->alias];
+
 		if ($fields !== null && $values !== null) {
 			$data = array_combine($fields, $values);
 		}
@@ -283,11 +297,14 @@ class CouchDBSource extends DataSource {
 
 		if (!empty($model->id)) {
 			$result = $this->__decode($this->Socket->put($this->__uri($model, $model->id), $this->__encode($data)));
+
 			if ($this->__checkOk($result)) {
 				$model->rev = $result->rev;
+
 				return true;
 			}
 		}
+
 		return false;
 	}
 
@@ -307,7 +324,7 @@ class CouchDBSource extends DataSource {
 		if (isset($data['rev']) && !empty($data['rev'])) {
 			$data['_rev'] = $data['rev'];
 			unset($data['rev']);
-		} else if ($model->rev) {
+		} elseif ($model->rev) {
 			$data['_rev'] = $model->rev;
 		} else {
 			$data['_rev'] = $this->__lastRevision($model, $model->id);
@@ -323,6 +340,7 @@ class CouchDBSource extends DataSource {
  */
 	private function __lastRevision(&$model, $id) {
 		$result = $this->__decode($this->Socket->get($this->__uri($model, $id)));
+
 		return $result->_rev;
 	}
 
@@ -338,11 +356,16 @@ class CouchDBSource extends DataSource {
 		$rev = $model->rev;
 
 		if (!empty($id)) {
-			if (empty($rev)) $rev = $this->__lastRevision($model, $id);
-			$id_rev = $id . '/?rev=' . $rev;
-			$result = $this->__decode($this->Socket->delete($this->__uri($model, $id_rev)));
+			if (empty($rev)) {
+				$rev = $this->__lastRevision($model, $id);
+			}
+
+			$idRev = $id . '/?rev=' . $rev;
+			$result = $this->__decode($this->Socket->delete($this->__uri($model, $idRev)));
+
 			return $this->__checkOk($result);
 		}
+
 		return false;
 	}
 
@@ -369,6 +392,7 @@ class CouchDBSource extends DataSource {
 		$obj = new stdClass();
 		$obj->type = 'expression';
 		$obj->value = $expression;
+
 		return $obj;
 	}
 
@@ -382,6 +406,7 @@ class CouchDBSource extends DataSource {
  */
 	public function fullTableName($model, $quote = true, $schema = true) {
 		$table = null;
+
 		if (is_object($model)) {
 			$table = $model->tablePrefix . $model->table;
 		} elseif (isset($this->config['prefix'])) {
@@ -389,6 +414,7 @@ class CouchDBSource extends DataSource {
 		} else {
 			$table = strval($model);
 		}
+
 		return $table;
 	}
 
@@ -401,7 +427,7 @@ class CouchDBSource extends DataSource {
  *
  * The method can be performed by a Model of the following ways:
  *
- * 		$this->Model->curlGet('_all_dbs');
+ *    $this->Model->curlGet('_all_dbs');
  *		$this->Model->curlPut('document_name');
  *		$this->Model->curlPost('document_name', array('field' => 'value'));
  *		$this->Model->curlDelete('document_name');
@@ -419,11 +445,13 @@ class CouchDBSource extends DataSource {
 			'method' => strtoupper(str_replace('curl', '', $method))
 		);
 
-		if (!empty($uri))
+		if (!empty($uri)) {
 			$request['uri'] = '/' . $uri;
+		}
 
-		if (!empty($data))
+		if (!empty($data)) {
 			$request['body'] = $this->__encode($data);
+		}
 
 		$result = $this->Socket->request($request);
 
@@ -441,17 +469,29 @@ class CouchDBSource extends DataSource {
  * @return array
  */
 	private function __queryParams($params) {
-		if (isset($params[0])) $uri = $params[0];
-		else $uri = '';
+		if (isset($params[0])) {
+			$uri = $params[0];
+		} else {
+			$uri = '';
+		}
 
-		if (isset($params[1])) $data = $params[1];
-		else $data = array();
+		if (isset($params[1])) {
+			$data = $params[1];
+		} else {
+			$data = array();
+		}
 
-		if (isset($params[2])) $decode = $params[2];
-		else $decode = true;
+		if (isset($params[2])) {
+			$decode = $params[2];
+		} else {
+			$decode = true;
+		}
 
-		if (isset($params[3])) $assoc = $params[3];
-		else $assoc = true;
+		if (isset($params[3])) {
+			$assoc = $params[3];
+		} else {
+			$assoc = true;
+		}
 
 		return array($uri, $data, $decode, $assoc);
 	}
@@ -467,6 +507,7 @@ class CouchDBSource extends DataSource {
 		if (!is_null($params)) {
 			$params = '/' . $params;
 		}
+
 		return '/' . $this->fullTableName($model) . $params;
 	}
 
@@ -501,4 +542,3 @@ class CouchDBSource extends DataSource {
 		return isset($object->ok) && $object->ok === true;
 	}
 }
-?>

@@ -126,9 +126,7 @@ class CouchDBSource extends DataSource {
  * @return array Databases.
  */
 	public function listSources($data = null) {
-		$databases = $this->__decode($this->Socket->get($this->__uri('_all_dbs')), true);
-
-		return $databases;
+		return $this->__decode($this->Socket->get($this->__uri('_all_dbs')), true);
 	}
 
 /**
@@ -250,8 +248,7 @@ class CouchDBSource extends DataSource {
 			$result[0][$model->alias]['id'] = $result[0][$model->alias]['_id'];
 			$result[0][$model->alias]['rev'] = $result[0][$model->alias]['_rev'];
 
-			unset($result[0][$model->alias]['_id']);
-			unset($result[0][$model->alias]['_rev']);
+			unset($result[0][$model->alias]['_id'], $result[0][$model->alias]['_rev']);
 
 			return $result;
 		} elseif (isset($result[0][$model->alias]['rows'])) {
@@ -261,10 +258,7 @@ class CouchDBSource extends DataSource {
 				$docs[$k][$model->alias]['id'] = $doc['doc']['_id'];
 				$docs[$k][$model->alias]['rev'] = $doc['doc']['_rev'];
 
-				unset($doc['doc']['_id']);
-				unset($doc['doc']['_rev']);
-				unset($doc['doc']['id']);
-				unset($doc['doc']['rev']);
+				unset($doc['doc']['_id'], $doc['doc']['_rev'], $doc['doc']['id'], $doc['doc']['rev']);
 
 				foreach ($doc['doc'] as $field => $value) {
 					$docs[$k][$model->alias][$field] = $value;

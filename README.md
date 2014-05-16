@@ -97,6 +97,13 @@ $conditions = array('Post.id' => $this->Post->id);
 $result = $this->Post->find('first', compact('conditions'));
 ```
 
+### Search for a document by specific revision
+
+```php
+$conditions = array('Post.id' => $this->Post->id, 'Post.rev' => $this->Post->rev);
+$result = $this->Post->find('first', compact('conditions'));
+```
+
 ### Change a document (changing the last revision)
 
 ```php

@@ -215,6 +215,12 @@ class CouchDBSource extends DataSource {
 			if ($model->recursive > -1) {
 				$params = $params . '?revs_info=true';
 			}
+			
+			if (isset($queryData['conditions'][$model->alias . '.rev'])) {
+				if (strstr($this->__uri($model, $params), '?rev')) $type = '&';
+				else $type = '?';
+				$params = $params . $type . 'rev=' . $queryData['conditions'][$model->alias . '.rev'];
+			}
 		}
 
 		$result = array();

@@ -1,36 +1,54 @@
 <?php
 /**
- * CouchDB DataSource Test file
- * PHP version 5
+ * CouchDB DataSource Test file.
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright Copyright 2005-2010, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link http://cakephp.org CakePHP(tm) Project
- * @package datasources
- * @subpackage datasources.models.datasources
- * @since CakePHP Datasources v 0.3
- * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://cakephp.org CakePHP(tm) Project
+ * @package       CouchDB.Test.Case.Datasource
+ * @since         CakePHP Datasources v 0.3
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('AppModel', 'Model');
 
 /**
  * Post Model for the test.
- *
- * @package app
- * @subpackage app.model.post
  */
 class Post extends AppModel {
 
+/**
+ * Name of the model.
+ *
+ * @var string
+ */
 	public $name = 'Post';
+
+/**
+ * Custom display field name.
+ *
+ * @var string
+ */
 	public $displayField = 'title';
+
+/**
+ * Number of associations to recurse through during find calls.
+ *
+ * @var integer
+ */
 	public $recursive = -1;
 
+/**
+ * List of validation rules.
+ *
+ * @var array
+ */
 	public $validate = array(
 		'title' => array(
 			'notempty' => array(
@@ -44,6 +62,11 @@ class Post extends AppModel {
 		),
 	);
 
+/**
+ * Field-by-field table metadata.
+ *
+ * @var array
+ */
 	public $schema = array(
 		'id' => array(
 			'type' => 'string',
@@ -72,8 +95,7 @@ class Post extends AppModel {
 /**
  * CouchDBTestCase.
  *
- * @package       datasources
- * @subpackage    datasources.tests.cases.models.datasources
+ * @package       CouchDB.Test.Case.Datasource
  */
 class CouchDBTestCase extends CakeTestCase {
 
@@ -89,7 +111,7 @@ class CouchDBTestCase extends CakeTestCase {
  *
  * @var array
  */
-	protected $config = array(
+	protected $_config = array(
 		'datasource' => 'CouchDB.CouchDBSource',
 		'persistent' => false,
 		'host' => 'localhost',
@@ -110,14 +132,14 @@ class CouchDBTestCase extends CakeTestCase {
 		$config = new DATABASE_CONFIG();
 
 		if (isset($config->couchdb_test)) {
-			$this->config = $config->couchdb_test;
+			$this->_config = $config->couchdb_test;
 		}
 
-		ConnectionManager::create('couchdb_test', $this->config);
+		ConnectionManager::create('couchdb_test', $this->_config);
 
 		$this->Post = ClassRegistry::init('Post');
 		$this->Post->useDbConfig = 'couchdb_test';
-		$this->removeAllDocuments();
+		$this->__removeAllDocuments();
 	}
 
 /**
@@ -126,10 +148,10 @@ class CouchDBTestCase extends CakeTestCase {
  * @return void
  */
 	public function testConnection() {
-		$this->CouchDB = new CouchDBSource($this->config);
+		$this->CouchDB = new CouchDBSource($this->_config);
 		$this->CouchDB = ConnectionManager::getDataSource($this->Post->useDbConfig);
 
-		$reconnect = $this->CouchDB->reconnect($this->config);
+		$reconnect = $this->CouchDB->reconnect($this->_config);
 		$this->assertSame($reconnect, true, __d('test_cases', 'Not reconnected'));
 
 		$disconnect = $this->CouchDB->disconnect();
@@ -311,16 +333,15 @@ class CouchDBTestCase extends CakeTestCase {
 
 		if (isset($mapReduce->rows[0]->value)) {
 			$count0 = $mapReduce->rows[0]->value;
-		}
-		else {
+		} else {
 			$count0 = 0;
 		}
 
-		$count1 = $this->updateTest1($uri, $post, $count0);
-		$count2 = $this->updateTest2($uri, $post, $count1);
-		$count3 = $this->updateTest3($uri, $post, $count2);
-		$count4 = $this->updateTest4($uri, $post, $count2);
-		$updateData = $this->updateTest5($uri, $post, $count4);
+		$count1 = $this->__updateTest1($uri, $post, $count0);
+		$count2 = $this->__updateTest2($uri, $post, $count1);
+		$count3 = $this->__updateTest3($uri, $post, $count2);
+		$count4 = $this->__updateTest4($uri, $post, $count2);
+		$updateData = $this->__updateTest5($uri, $post, $count4);
 
 		// Final test
 		$result = $this->Post->find('all');
@@ -343,7 +364,7 @@ class CouchDBTestCase extends CakeTestCase {
  * @param integer $previousCount
  * @return integer
  */
-	private function updateTest1($uri, $post, $previousCount) {
+	private function __updateTest1($uri, $post, $previousCount) {
 		$data = array(
 			'title' => 'My first post',
 			'description' => 'My first post'
@@ -370,7 +391,7 @@ class CouchDBTestCase extends CakeTestCase {
  * @param integer $previousCount
  * @return integer
  */
-	private function updateTest2($uri, $post, $previousCount) {
+	private function __updateTest2($uri, $post, $previousCount) {
 		$findResult = $this->Post->find('first');
 		$this->assertEquals(4, count($findResult['Post']));
 
@@ -400,7 +421,7 @@ class CouchDBTestCase extends CakeTestCase {
  * @param integer $previousCount
  * @return integer
  */
-	private function updateTest3($uri, $post, $previousCount) {
+	private function __updateTest3($uri, $post, $previousCount) {
 		$findResult = $this->Post->find('first');
 		$this->assertEquals(4, count($findResult['Post']));
 
@@ -431,7 +452,7 @@ class CouchDBTestCase extends CakeTestCase {
  * @param integer $previousCount
  * @return integer
  */
-	private function updateTest4($uri, $post, $previousCount) {
+	private function __updateTest4($uri, $post, $previousCount) {
 		$findResult = $this->Post->find('first');
 		$this->assertEquals(4, count($findResult['Post']));
 
@@ -462,7 +483,7 @@ class CouchDBTestCase extends CakeTestCase {
  * @param integer $previousCount
  * @return integer
  */
-	private function updateTest5($uri, $post, $previousCount) {
+	private function __updateTest5($uri, $post, $previousCount) {
 		$findResult = $this->Post->find('first');
 		$this->assertEquals(4, count($findResult['Post']));
 
@@ -577,7 +598,7 @@ class CouchDBTestCase extends CakeTestCase {
 			'description' => 'My first post'
 		);
 
-		$result = $this->Post->curlPost('/posts',  $data);
+		$result = $this->Post->curlPost('/posts', $data);
 		$this->assertSame($result['ok'], true);
 
 		// PUT
@@ -587,7 +608,7 @@ class CouchDBTestCase extends CakeTestCase {
 			'description' => 'My first update'
 		);
 
-		$result = $this->Post->curlPut('/posts/' . $result['id'],  $data);
+		$result = $this->Post->curlPut('/posts/' . $result['id'], $data);
 		$this->assertSame($result['ok'], true);
 
 		// DELETE
@@ -600,10 +621,10 @@ class CouchDBTestCase extends CakeTestCase {
  *
  * @return void
  */
-	private function removeAllDocuments() {
+	private function __removeAllDocuments() {
 		$posts = $this->Post->find('list', array('fields' => array('Post.rev')));
 
-		foreach($posts as $id => $post) {
+		foreach ($posts as $id => $post) {
 			$this->Post->rev = $post;
 			$this->Post->delete($id);
 		}
@@ -615,7 +636,7 @@ class CouchDBTestCase extends CakeTestCase {
  * @return void
  */
 	public function tearDown() {
-		$this->removeAllDocuments();
+		$this->__removeAllDocuments();
 		unset($this->Post);
 		unset($this->CouchDB);
 		ClassRegistry::flush();

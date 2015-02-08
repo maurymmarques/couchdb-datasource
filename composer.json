@@ -2,7 +2,7 @@
     "name": "maurymmarques/couchdb-datasource-cakephp",
     "description": "CouchDB datasource is a CakePHP plugin to facilitate the communication from CakePHP application to CouchDB database.",
     "type": "cakephp-plugin",
-    "keywords": ["cakephp", "couchdb", "datasource"],
+    "keywords": ["cakephp", "couchdb", "datasource", "plugin"],
     "homepage": "https://github.com/maurymmarques/couchdb-datasource-cakephp",
     "license": "MIT",
     "authors": [

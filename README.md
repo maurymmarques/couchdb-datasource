@@ -16,20 +16,53 @@ Copyright (c) 2011 Maury M. Marques
 
 ## Installation
 
-You can clone the plugin into your project (or if you want you can use it as a [submodule](http://help.github.com/submodules)):
+You can install this plugin using Composer, GIT Submodule, GIT Clone or Manually
 
+_[Using [Composer](http://getcomposer.org/)]_
+
+Add the plugin to your project's `composer.json` - something like this:
+
+```javascript
+{
+  "require": {
+    "maurymmarques/couchdb-datasource-plugin": "dev-master"
+  }
+}
 ```
-cd path/to/app/Plugin or /plugins
+Because this plugin has the type `cakephp-plugin` set in it's own `composer.json`, composer knows to install it inside your `/Plugin` directory, rather than in the usual vendors file.
+
+_[GIT Submodule]_
+
+In your app directory (`app/Plugin`) type:
+
+```bash
+git submodule add git://github.com/maurymmarques/couchdb-datasource.git Plugin/CouchDB
+git submodule init
+git submodule update
+```
+
+_[GIT Clone]_
+
+In your plugin directory (`app/Plugin` or `plugins`) type:
+
+```bash
 git clone https://github.com/maurymmarques/couchdb-datasource.git CouchDB
 ```
+
+_[Manual]_
+
+* Download the [CouchDB archive](https://github.com/maurymmarques/couchdb-datasource/archive/master.zip).
+* Unzip that download.
+* Rename the resulting folder to `CouchDB`
+* Then copy this folder into `app/Plugin/` or `plugins`
+
+## Configuration
 
 Bootstrap the plugin in app/Config/bootstrap.php:
 
 ```php
 CakePlugin::load('CouchDB');
 ```
-
-## Configuration
 
 Connection in app/Config/database.php:
 
